@@ -4,20 +4,12 @@ import OpenAI from 'openai'
 import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js'
 import { Readable } from 'node:stream'
 import type { ReadableStream } from 'node:stream/web'
+import { getMiniMaxTTSEndpoint, MINIMAX_TTS_MODELS } from './minimaxParameters'
 
 const TextToSpeechType = {
     OPENAI_TTS: 'openai',
     ELEVEN_LABS_TTS: 'elevenlabs',
     MINIMAX_TTS: 'minimax'
-}
-
-const MINIMAX_TTS_ENDPOINTS = {
-    global_en: 'https://api.minimax.io/v1/t2a_v2',
-    cn_zh: 'https://api.minimaxi.com/v1/t2a_v2'
-} as const
-
-export const getMiniMaxTTSEndpoint = (region?: string): string => {
-    return MINIMAX_TTS_ENDPOINTS[region === 'cn_zh' ? 'cn_zh' : 'global_en']
 }
 
 export const convertTextToSpeechStream = async (
@@ -120,7 +112,7 @@ export const convertTextToSpeechStream = async (
                             }
 
                             const voiceId = textToSpeechConfig.voice || 'English_expressive_narrator'
-                            const model = textToSpeechConfig.model || 'speech-2.8-hd'
+                            const model = textToSpeechConfig.model || MINIMAX_TTS_MODELS[0]
 
                             const requestBody: Record<string, unknown> = {
                                 model: model,
@@ -142,7 +134,7 @@ export const convertTextToSpeechStream = async (
                                 }
                             }
 
-                            const response = await fetch(getMiniMaxTTSEndpoint(credentialData.miniMaxTTSRegion as string | undefined), {
+                            const response = await fetch(getMiniMaxTTSEndpoint(credentialData.miniMaxApiRegion as string | undefined), {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',

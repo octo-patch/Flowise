@@ -1,8 +1,10 @@
 import { ChatAnthropic as LangchainChatAnthropic, AnthropicInput } from '@langchain/anthropic'
 import { type BaseChatModelParams } from '@langchain/core/language_models/chat_models'
+import { getMiniMaxAnthropicEndpoint } from '../../../src/minimaxParameters'
 
 export interface ChatMiniMaxInput extends Partial<AnthropicInput>, BaseChatModelParams {
     miniMaxApiKey?: string
+    miniMaxApiRegion?: string
 }
 
 export class ChatMiniMax extends LangchainChatAnthropic {
@@ -17,7 +19,7 @@ export class ChatMiniMax extends LangchainChatAnthropic {
             ...fields,
             anthropicApiKey: miniMaxApiKey,
             clientOptions: {
-                baseURL: 'https://api.minimax.io/anthropic'
+                baseURL: getMiniMaxAnthropicEndpoint(fields?.miniMaxApiRegion)
             }
         })
 

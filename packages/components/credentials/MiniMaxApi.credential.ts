@@ -17,8 +17,8 @@ class MiniMaxApi implements INodeCredential {
                 type: 'password'
             },
             {
-                label: 'TTS API Region',
-                name: 'miniMaxTTSRegion',
+                label: 'API Region',
+                name: 'miniMaxApiRegion',
                 type: 'options',
                 options: [
                     {

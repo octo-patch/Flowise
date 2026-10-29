@@ -98,10 +98,12 @@ class ChatMiniMax_ChatModels implements INode {
 
         const credentialData = await getCredentialData(nodeData.credential ?? '', options)
         const miniMaxApiKey = getCredentialParam('miniMaxApiKey', credentialData, nodeData)
+        const miniMaxApiRegion = getCredentialParam('miniMaxApiRegion', credentialData, nodeData)
 
         const obj: ChatMiniMaxInput = {
             modelName,
             miniMaxApiKey,
+            miniMaxApiRegion,
             streaming: streaming ?? true
         }
 
